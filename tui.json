@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "dracula",
+  "scroll_acceleration": {
+    "enabled": true
+  }
+}
+

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "llamacpp/qwen3.6-27b-mtp",
+  "agent": {
+    "explore": {
+      "model": "llamacpp/qwen3.6-35b-a3b-mtp",
+    },
+    "plan": {
+      "permission": {
+        "edit": {
+          "*.md": "allow",
+        },
+      },
+    },
+  },
+  "small_model": "llamacpp/qwen3.6-35b-a3b-mtp",
+  "autoupdate": false,
+  "share": "disabled",
+  // "permission": {
+  //   "edit": "allow",
+  //   "read": "allow",
+  //   "bash": {
+  //     "*": "ask",
+  //
+  //     "git status": "allow",
+  //     "git status *": "allow",
+  //     "git diff": "allow",
+  //     "git diff *": "allow",
+  //     "git log": "allow",
+  //     "git log *": "allow",
+  //
+  //     "ls": "allow",
+  //     "ls *": "allow",
+  //     "pwd": "allow",
+  //     "rg *": "allow",
+  //     "cat *": "allow",
+  //
+  //     "pnpm test *": "allow",
+  //     "pnpm build": "allow",
+  //     "pnpm typecheck": "allow",
+  //
+  //     "rtk *": "allow",
+  //
+  //     "sudo *": "deny",
+  //     "rm -rf /": "deny",
+  //     "rm -rf /*": "deny",
+  //     "rm -rf ~": "deny",
+  //     "rm -rf ~/*": "deny",
+  //     "git push --force *": "deny",
+  //     "git push -f *": "deny",
+  //     "git reset --hard *": "deny",
+  //   },
+  //   "skill": "allow",
+  //   "webfetch": "allow",
+  //   "doom_loop": "ask",
+  //   "external_directory": {
+  //     "*": "ask",
+  //     "~/Github/*": "allow",
+  //     "/tmp/*": "allow",
+  //   },
+  // },
+  "plugin": ["@tarquinen/opencode-dcp@latest"],
+  "provider": {
+    "llamacpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (frmwrk)",
+      "options": {
+        "baseURL": "http://192.168.3.226:8080/v1",
+      },
+      "models": {
+        "qwen3.6-27b-mtp": {
+          "name": "Qwen3.6 27B MTP",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "qwen3.6-35b-a3b-mtp": {
+          "name": "Qwen3.6 35B A3B MTP",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "qwen3.6-27b": {
+          "name": "Qwen3.6 27B",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "qwen3.6-35b-a3b": {
+          "name": "Qwen3.6 35B A3B",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "qwen3-coder-next": {
+          "name": "Qwen3 Coder Next",
+        },
+        "zai-org/glm-4.7-flash": {
+          "name": "GLM-4.7 Flash 30B",
+        },
+        "openai/gpt-oss-20b": {
+          "name": "GPT OSS 20B",
+          "reasoning": true,
+        },
+        "openai/gpt-oss-120b": {
+          "name": "GPT OSS 120B",
+          "reasoning": true,
+        },
+        "google/gemma-4-26b-a4b": {
+          "name": "Gemma 4-26B",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "google/gemma-4-31b": {
+          "name": "Gemma 4-31B",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "kappa-20b-131k": {
+          "name": "Kappa 20B 123K",
+          "reasoning": true,
+        },
+        "nvidia-nemotron-3-nano-omni-30b-a3b-reasoning": {
+          "name": "Nvidia Nemotron 3 Nano",
+          "reasoning": true,
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+        },
+        "unsloth/nvidia-nemotron-3-super-120b-a12b": {
+          "name": "Nvidia Nemotron 3 Super",
+          "reasoning": true,
+        },
+        "liquid/lfm2-24b-a2b": {
+          "name": "Liquid LFM2 24b A2B",
+          "reasoning": true,
+        },
+      },
+    },
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      // "headers": {
+      //   "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      // }
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+    },
+    "chrome-devtools-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp"],
+      "enabled": false,
+    },
+    "next-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "next-devtools-mpc@latest"],
+      "enabled": false,
+    },
+    "cachebro": {
+      "type": "local",
+      "command": ["npx", "-y", "cachebro", "serve"],
+    },
+    "tilth": {
+      "type": "local",
+      "command": ["npx", "-y", "tilth", "--mcp"],
+    },
+    "grepika": {
+      "type": "local",
+      "command": ["npx", "-y", "@agentika/grepika", "--mcp"],
+    },
+  },
+}
