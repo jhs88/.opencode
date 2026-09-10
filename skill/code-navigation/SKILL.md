@@ -1,3 +1,8 @@
+---
+name: code-navigation
+description: Navigate code with Grepika and Tilth, and read files with Cachebro.
+---
+
 # Code Navigation & File Reading
 
 Full tool reference for navigating codebases. The AGENTS.md quick-reference table covers tool selection; this skill provides detailed usage patterns, workflows, and edge cases.
@@ -30,12 +35,12 @@ When you need to know _where something is defined_ or _what calls what_, prefer 
 
 ### Commands
 
-- `tilth_read` — smart file reading. Small files shown whole, large files auto-outlined with drillable line ranges.
-- `tilth_search` — definition-first search. Finds where symbols are **defined** (not just string matches), shows surrounding structure, resolves callees inline.
+- `tilth_tilth_read` — smart file reading. Small files shown whole, large files auto-outlined with drillable line ranges.
+- `tilth_tilth_search` — definition-first search. Finds where symbols are **defined** (not just string matches), shows surrounding structure, resolves callees inline.
   - Use `scope` param to limit to a subdirectory
   - Multi-symbol: pass comma-separated names to trace across files in one call
   - Callers: `kind: callers` finds all call sites using tree-sitter structural matching
-- `tilth_deps` — blast-radius check. Shows what a file imports and what other files use its exports. **Use before breaking changes** (renaming exports, changing signatures).
+- `tilth_tilth_deps` — blast-radius check. Shows what a file imports and what other files use its exports. **Use before breaking changes** (renaming exports, changing signatures).
 
 ### When to Choose Tilth Over Grepika
 

@@ -13,7 +13,7 @@ const SLIM: Record<string, string> = {
   ].join(" "),
   edit: [
     "String replacement in files. oldString can be a line range like '55-64'.",
-    "Use cachebro_read_file to read the file first or this tool will error. Match indentation exactly from read output (after `<line>: ` prefix — never include the prefix).",
+    "Read the current file before editing; cachebro or built-in read is fine. Match indentation exactly from read output (after `<line>: ` prefix — never include the prefix).",
     "Fails if oldString not found. Fails if multiple matches — add surrounding context to disambiguate.",
     "Use replaceAll for renaming across the file. Prefer editing over creating new files.",
   ].join(" "),
@@ -23,7 +23,7 @@ const SLIM: Record<string, string> = {
     "All-or-nothing: if any edit fails, none apply. Ensure earlier edits don't break later ones' oldString.",
   ].join(" "),
   write:
-    "Write/overwrite file. Must use cachebro_read_file on existing files first. Prefer Edit over Write for existing files. Never proactively create .md/README files.",
+    "Write/overwrite file. Inspect existing content first using cachebro or built-in read. Prefer Edit over Write for existing files. Never proactively create .md/README files.",
   bash: [
     "Run shell command in persistent session. Use workdir param instead of `cd &&`.",
     "For file ops use dedicated tools (cachebro_read_file/Edit/Write/Glob/Grep), not cat/sed/awk/echo.",
@@ -32,7 +32,7 @@ const SLIM: Record<string, string> = {
     "Git: never force-push, hard-reset, skip hooks, or auto-commit unless user explicitly asks.",
   ].join(" "),
   glob: "Fast file pattern matching (e.g. '**/*.ts'). For finding files by topic/relevance, prefer grepika (ranked results). Use glob for known patterns, specific extensions, or directory structure exploration. Batch multiple speculative searches.",
-  grep: "Regex content search across files. For finding relevant files by topic, prefer grepika (ranked results). For symbol lookups, prefer CKB tools. Use grep for exact regex patterns, literal strings, or when you need line-level matches. Supports include filter (e.g. '*.ts'). Use `rg` via Bash for match counting.",
+  grep: "Regex content search across files. For finding relevant files by topic, prefer grepika (ranked results). For symbol lookups, prefer tilth_tilth_search. Use grep for exact regex patterns, literal strings, or when you need line-level matches. Supports include filter (e.g. '*.ts'). Use `rg` via Bash for match counting.",
   list: "List files/dirs at absolute path. Prefer Glob/Grep when you know what to search for.",
   webfetch:
     "Fetch URL content as markdown/text/html. Read-only. HTTP auto-upgrades to HTTPS. Prefer more specialized tools if available.",
@@ -49,7 +49,7 @@ const SLIM: Record<string, string> = {
     "Read current todo list. Use frequently — before new tasks, after completions, when uncertain. Takes no parameters.",
   question:
     "Ask user a question during execution. Answers returned as label arrays. 'Type your own answer' auto-added when custom=true. Put recommended option first with '(Recommended)' suffix.",
-  lsp: "LSP code intelligence. Prefer CKB tools (ckb_searchSymbols, ckb_findReferences, ckb_getCallGraph, ckb_explore) when available — they're faster and more token-efficient. Fallback operations: goToDefinition, findReferences, hover, documentSymbol, workspaceSymbol, goToImplementation, prepareCallHierarchy, incomingCalls, outgoingCalls. Requires filePath + line + character (both 1-based).",
+  lsp: "LSP code intelligence. Prefer tilth_tilth_search for definitions/callers and grepika for code search when available. Fallback operations: goToDefinition, findReferences, hover, documentSymbol, workspaceSymbol, goToImplementation, prepareCallHierarchy, incomingCalls, outgoingCalls. Requires filePath + line + character (both 1-based).",
 };
 
 export const OpenSlimeditPlugin: Plugin = async ({ directory }) => {
@@ -60,7 +60,7 @@ export const OpenSlimeditPlugin: Plugin = async ({ directory }) => {
 
   return {
     // Aggressively shorten ALL tool descriptions
-    "tool.definition": async (input: any, output: any) => {
+    "tool.definition": async (input, output) => {
       if (SLIM[input.toolID]) {
         output.description = SLIM[input.toolID];
       }
@@ -94,7 +94,7 @@ export const OpenSlimeditPlugin: Plugin = async ({ directory }) => {
     "tool.execute.before": async (input, output) => {
       if (input.tool !== "edit") return;
       const args = output.args;
-      if (!args.oldString || !args.filePath) return;
+      if (typeof args.oldString !== "string" || typeof args.filePath !== "string" || !args.oldString) return;
 
       const filePath = resolvePath(args.filePath);
       let content: string;
@@ -117,7 +117,7 @@ export const OpenSlimeditPlugin: Plugin = async ({ directory }) => {
         args.oldString = lines.slice(startLine - 1, endLine).join("\n");
       }
     },
-  } as any;
+  };
 };
 
 export default OpenSlimeditPlugin;

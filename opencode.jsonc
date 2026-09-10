@@ -1,9 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "llamacpp/qwen3.6-27b-mtp",
+  "model": "llamacpp/qwen3.6-27b",
   "agent": {
     "explore": {
-      "model": "llamacpp/qwen3.6-35b-a3b-mtp",
+      "model": "llamacpp/qwen3.6-35b-a3b",
     },
     "plan": {
       "permission": {
@@ -13,7 +13,7 @@
       },
     },
   },
-  "small_model": "llamacpp/qwen3.6-35b-a3b-mtp",
+  "small_model": "llamacpp/qwen3.6-35b-a3b",
   "autoupdate": false,
   "share": "disabled",
   // "permission": {
@@ -60,79 +60,480 @@
   //   },
   // },
   "plugin": ["@tarquinen/opencode-dcp@latest"],
+  // Keep the self-hosted web-research surface small; no agents or monitors.
+  "tools": {
+    "firecrawl_*": false,
+    "firecrawl_firecrawl_search": true,
+    "firecrawl_firecrawl_scrape": true,
+    "firecrawl_firecrawl_map": true,
+    "firecrawl_firecrawl_crawl": true,
+    "firecrawl_firecrawl_check_crawl_status": true,
+  },
+  "permission": {
+    "firecrawl_firecrawl_crawl": "ask",
+  },
   "provider": {
     "llamacpp": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "llama.cpp (frmwrk)",
+      "npm": "@ai-sdk/openai",
+      "name": "CLIProxyAPI (Responses)",
       "options": {
-        "baseURL": "http://192.168.3.226:8080/v1",
+        "baseURL": "https://cliproxyapi.scherreik.com/v1",
+        "apiKey": "{env:CLIPROXYAPI_API_KEY}",
       },
       "models": {
-        "qwen3.6-27b-mtp": {
-          "name": "Qwen3.6 27B MTP",
+        "eousphoros/kappa-20b-131k": {
+          "name": "kappa-20b-131k",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
         },
-        "qwen3.6-35b-a3b-mtp": {
-          "name": "Qwen3.6 35B A3B MTP",
+        "gemma-4-12b-it-qat": {
+          "name": "Gemma 4 12B QAT MTP",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 56000,
+            "output": 8192
+          }
         },
-        "qwen3.6-27b": {
-          "name": "Qwen3.6 27B",
+        "gemma-4-26b-a4b-it-qat": {
+          "name": "Gemma 4 26B A4B QAT MTP",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 56000,
+            "output": 8192
+          }
         },
-        "qwen3.6-35b-a3b": {
-          "name": "Qwen3.6 35B A3B",
+        "gemma-4-31b-it-qat": {
+          "name": "Gemma 4 31B QAT MTP",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 56000,
+            "output": 8192
+          }
         },
-        "qwen3-coder-next": {
-          "name": "Qwen3 Coder Next",
-        },
-        "zai-org/glm-4.7-flash": {
-          "name": "GLM-4.7 Flash 30B",
-        },
-        "openai/gpt-oss-20b": {
-          "name": "GPT OSS 20B",
+        "gemma-4-e2b-it-qat": {
+          "name": "Gemma 4 E2B QAT MTP",
           "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 49152,
+            "output": 8192
+          }
         },
-        "openai/gpt-oss-120b": {
-          "name": "GPT OSS 120B",
+        "gemma-4-e4b-it-qat": {
+          "name": "Gemma 4 E4B QAT MTP",
           "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 49152,
+            "output": 8192
+          }
         },
-        "google/gemma-4-26b-a4b": {
-          "name": "Gemma 4-26B",
+        "glm-4.7-flash": {
+          "name": "GLM 4.7 Flash",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 56000,
+            "output": 8192
+          }
         },
-        "google/gemma-4-31b": {
-          "name": "Gemma 4-31B",
+        "glm-4.7-flash-reap": {
+          "name": "glm-4.7-flash-reap",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 56000,
+            "output": 8192
+          }
+        },
+        "gpt-oss-120b": {
+          "name": "gpt-oss-120b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "gpt-oss-20b": {
+          "name": "gpt-oss-20b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "hermes-4.3-36b": {
+          "name": "Hermes 4.3 36B",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
         },
         "kappa-20b-131k": {
           "name": "Kappa 20B 123K",
           "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-Native-MTP-Preserved-GGUF": {
+          "name": "llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-Native-MTP-Preserved-GGUF",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "muse-glimmer-30b": {
+          "name": "muse-glimmer-30b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "nemotron-3-nano-omni-30b-a3b-reasoning": {
+          "name": "nemotron-3-nano-omni-30b-a3b-reasoning",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        },
+        "nemotron-3-super-120b-a12b": {
+          "name": "nemotron-3-super-120b-a12b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        },
+        "nemotron-3.5-lightning": {
+          "name": "nemotron-3.5-lightning",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        },
+        "nouscoder-14b": {
+          "name": "NousCoder 14B",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 81920,
+            "output": 8192
+          }
         },
         "nvidia-nemotron-3-nano-omni-30b-a3b-reasoning": {
           "name": "Nvidia Nemotron 3 Nano",
           "reasoning": true,
-          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        },
+        "ornith-1.0-35b": {
+          "name": "ornith-1.0-35b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 8192
+          }
+        },
+        "qwen3-coder-next": {
+          "name": "Qwen3 Coder Next",
+          "reasoning": false,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "qwen3.5-122b-a10b": {
+          "name": "Qwen 3.5 122B A10B",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "qwen3.6-27b": {
+          "name": "Qwen3.6 27B",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "qwen3.6-35b-a3b": {
+          "name": "Qwen3.6 35B A3B",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        },
+        "qwen3.8-27b": {
+          "name": "qwen3.8-27b",
+          "reasoning": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
         },
         "unsloth/nvidia-nemotron-3-super-120b-a12b": {
           "name": "Nvidia Nemotron 3 Super",
           "reasoning": true,
-        },
-        "liquid/lfm2-24b-a2b": {
-          "name": "Liquid LFM2 24b A2B",
-          "reasoning": true,
-        },
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        }
       },
     },
   },
   "mcp": {
+    "firecrawl": {
+      "type": "local",
+      "command": ["sh", "-c", ": \"${FIRECRAWL_API_URL:?Set FIRECRAWL_API_URL to your self-hosted Firecrawl endpoint}\"; exec npx -y firecrawl-mcp@3.23.7"],
+      "enabled": true,
+      // Also applies to tool calls, including waiting for bounded crawls.
+      "timeout": 120000,
+      "environment": {
+        // Read from the environment that launches OpenCode.
+        // The command guard prevents missing-URL cloud fallback.
+        "FIRECRAWL_API_URL": "{env:FIRECRAWL_API_URL}",
+        "FIRECRAWL_API_KEY": "{env:FIRECRAWL_API_KEY}",
+        "FIRECRAWL_OAUTH_TOKEN": "",
+        "FIRECRAWL_NO_SEARCH_FEEDBACK": "1",
+        "FIRECRAWL_NO_ENDPOINT_FEEDBACK": "1",
+        "CLOUD_SERVICE": "false",
+        "HTTP_STREAMABLE_SERVER": "false",
+        "SSE_LOCAL": "false",
+      },
+    },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",

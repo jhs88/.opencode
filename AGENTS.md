@@ -1,6 +1,6 @@
 # Global Rules
 
-Standard behaviors that pi should always follow.
+Standard behaviors that OpenCode should always follow.
 
 ## Quick Reference — Critical Rules
 
@@ -18,7 +18,7 @@ Standard behaviors that pi should always follow.
 | Need                         | Tool                                                       |
 | ---------------------------- | ---------------------------------------------------------- |
 | Directory overview           | `grepika_toc`                                              |
-| Symbol definitions / callers | `tilth_search` (use `kind:callers` for caller tracing)     |
+| Symbol definitions / callers | `tilth_tilth_search` (use `kind:callers` for caller tracing)     |
 | File structure               | `grepika_outline` → `grepika_get` (read only needed lines) |
 | Code search (NL/regex)       | `grepika_search`                                           |
 | Cached file reads            | `cachebro_read_file` / `cachebro_read_files`               |
@@ -37,3 +37,15 @@ Standard behaviors that pi should always follow.
 - Fallback if cachebro misbehaves: built-in `Read` tool
 
 **Load `code-navigation` skill for full tool reference and workflow patterns.**
+
+Read current file contents before editing, using cachebro or built-in `read`. The retired Cachebro bridge is not required by OpenCode 1.18.3; do not claim that MCP reads update a FileTime API.
+
+## Web research
+
+Use `firecrawl_firecrawl_search` for web queries, `firecrawl_firecrawl_scrape` for known URLs, and `firecrawl_firecrawl_map` for URL discovery. Use Context7 for library documentation and `gh_grep` for public code examples.
+
+Firecrawl uses the explicitly configured self-hosted API. Never substitute Firecrawl Cloud or a hosted MCP endpoint when it fails. Report the failure instead.
+
+Crawling requires user approval. Always provide a finite `limit` and `maxDiscoveryDepth`, with `allowExternalLinks: false` and `allowSubdomains: false` unless explicitly requested. Poll `firecrawl_firecrawl_check_crawl_status` using the returned job ID. A job ID alone is not completed work. Do not start unattended crawls: this MCP integration does not expose Pi's automatic crawl cancellation.
+
+Prefer markdown and small search limits. Agent, monitor, research-index, extraction, and browser-interaction tools are deliberately disabled. Use OpenCode's native `question`, `task`, and todo tools for interaction and delegation; Pi-specific background/workflow tools are not installed here.
