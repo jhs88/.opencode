@@ -517,13 +517,13 @@
   "mcp": {
     "firecrawl": {
       "type": "local",
-      "command": ["sh", "-c", ": \"${FIRECRAWL_API_URL:?Set FIRECRAWL_API_URL to your self-hosted Firecrawl endpoint}\"; exec npx -y firecrawl-mcp@3.23.7"],
+      "command": ["npx", "-y", "firecrawl-mcp"],
       "enabled": true,
       // Also applies to tool calls, including waiting for bounded crawls.
       "timeout": 120000,
       "environment": {
         // Read from the environment that launches OpenCode.
-        // The command guard prevents missing-URL cloud fallback.
+        // Keep FIRECRAWL_API_URL exported to avoid upstream cloud defaults.
         "FIRECRAWL_API_URL": "{env:FIRECRAWL_API_URL}",
         "FIRECRAWL_API_KEY": "{env:FIRECRAWL_API_KEY}",
         "FIRECRAWL_OAUTH_TOKEN": "",

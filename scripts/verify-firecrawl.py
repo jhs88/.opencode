@@ -134,7 +134,7 @@ def main():
         config = resolve_config(directory)
         server = config["mcp"]["firecrawl"]
         assert server["type"] == "local" and server["enabled"] is True
-        assert server["command"] == ['sh', '-c', ': "${FIRECRAWL_API_URL:?Set FIRECRAWL_API_URL to your self-hosted Firecrawl endpoint}"; exec npx -y firecrawl-mcp@3.23.7']
+        assert server["command"] == ["npx", "-y", "firecrawl-mcp"]
         env = server["environment"]
         if not env.get("FIRECRAWL_API_URL"):
             raise SystemExit("Export FIRECRAWL_API_URL before running this check.")
@@ -144,7 +144,7 @@ def main():
         assert env["FIRECRAWL_NO_SEARCH_FEEDBACK"] == env["FIRECRAWL_NO_ENDPOINT_FEEDBACK"] == "1"
         assert not any("cachebro-bridge" in str(p) for p in config["plugin"])
         assert config["permission"]["firecrawl_firecrawl_crawl"] == "ask"
-        print("PASS active config: pinned local MCP, explicit self-hosted endpoint, crawl approval, retired bridge")
+        print("PASS active config: local MCP, explicit self-hosted endpoint, crawl approval, retired bridge")
         mcp = MCP(server, directory)
         try:
             mcp.call("initialize", {"protocolVersion": "2024-11-05", "capabilities": {"roots": {}},

@@ -67,9 +67,9 @@ Chrome DevTools and Next DevTools entries are disabled.
 
 ### Firecrawl
 
-Requires Node.js 22 or newer. OpenCode launches the pinned `firecrawl-mcp@3.23.7` package over stdio, using the endpoint and optional key from the environment.
+Requires Node.js 22 or newer. OpenCode launches `npx -y firecrawl-mcp` over stdio, using the endpoint and optional key from the environment.
 
-The launcher refuses to start without `FIRECRAWL_API_URL`, preventing upstream's default Firecrawl Cloud fallback. Set it to your self-hosted service; do not substitute a cloud endpoint when that service fails.
+Keep `FIRECRAWL_API_URL` exported and pointed at your self-hosted service. Without it, upstream can default to Firecrawl Cloud.
 
 The lab instance currently needs no API key. Leave `FIRECRAWL_API_KEY` unset unless authentication is enabled. OAuth-token inheritance remains disabled.
 
