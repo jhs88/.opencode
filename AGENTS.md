@@ -51,4 +51,4 @@ Firecrawl uses the explicitly configured self-hosted API. Never substitute Firec
 
 Crawling requires user approval. Always provide a finite `limit` and `maxDiscoveryDepth`, with `allowExternalLinks: false` and `allowSubdomains: false` unless explicitly requested. Poll `firecrawl_firecrawl_check_crawl_status` using the returned job ID. A job ID alone is not completed work. Do not start unattended crawls: this MCP integration does not expose Pi's automatic crawl cancellation.
 
-Prefer markdown and small search limits. Agent, monitor, research-index, extraction, and browser-interaction tools are deliberately disabled. Use OpenCode's native `question`, `task`, and todo tools for interaction and delegation; Pi-specific background/workflow tools are not installed here.
+Prefer markdown and small search limits. Agent, monitor, research-index, extraction, and browser-interaction tools are deliberately disabled. Use OpenCode's native `question` and `subagent` tools for interaction and delegation; Pi-specific background/workflow tools are not installed here.
