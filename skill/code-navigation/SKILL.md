@@ -1,6 +1,6 @@
 ---
 name: code-navigation
-description: Navigate code with Grepika and Tilth, and read files with Cachebro.
+description: Navigate code with Grepika and Tilth, and read files with built-in read.
 ---
 
 # Code Navigation & File Reading
@@ -50,9 +50,8 @@ When you need to know _where something is defined_ or _what calls what_, prefer 
 
 ## Non-Code Files
 
-- **Config, JSON, small files:** `cachebro_read_file` / `cachebro_read_files` — typically small enough for full reads
+- **Config, JSON, small files:** built-in `read` — typically small enough for full reads
 - **Markdown/docs:** Don't blindly read whole file. Scan headers with `rg "^#{1,3} "` first, then read targeted sections with offset/limit. Only full-read if small or genuinely needed.
-- **Fallback:** If cachebro reports stale cache or truncates reads, use the built-in `Read` tool directly.
 
 ## Decision Flowchart
 
@@ -70,4 +69,3 @@ When you need to know _where something is defined_ or _what calls what_, prefer 
 - **Using grepika search without index** — results will be empty. Run `grepika_index` first.
 - **Omitting line ranges on grepika_get** — wastes context on large files
 - **Using grep/text search when you need definitions** — will find usages, imports, comments. Use tilth for definitions.
-- **Reading code files with cachebro** — cachebro is for config/JSON/small non-code files. Use grepika/tilth for code.

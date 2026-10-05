@@ -56,7 +56,7 @@ Custom agents live in `agent/*.md`. Select the orchestrator as a primary agent; 
 
 OpenCode discovers shared skills from `~/.agents/skills` as well as `skill/`. Skills need `name` and `description` frontmatter. Use `opencode debug skill` to inspect discovery.
 
-The local `code-navigation` skill describes Grepika, Tilth, and Cachebro usage. The local `unslop` skill provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
+The local `code-navigation` skill describes Grepika and Tilth usage. The local `unslop` skill provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
 
 The local `technical-writing` skill packages Pstack's Diátaxis, Google developer style, STE, and Global English standard at the same pinned revision as Pi. Its body is unchanged. License and provenance live beside `SKILL.md`. Global writing instructions and the docs agent require loading `technical-writing` and `unslop` through OpenCode's native `skill` tool. Pi's skill-preload frontmatter and `/skill:` invocation syntax are not used here. This controls writing style without widening the docs agent's library-documentation scope or enabling shell access.
 
@@ -66,7 +66,6 @@ The local `technical-writing` skill packages Pstack's Diátaxis, Google develope
 | --- | --- |
 | Grepika | Code search, outlines, references, and directory trees |
 | Tilth | Symbol definitions, callers, and dependency analysis |
-| Cachebro | Cached file reads |
 | Context7 | Library documentation |
 | gh_grep | Public code search through grep.app |
 | Firecrawl | Self-hosted web search, scraping, URL mapping, and crawling |
@@ -98,7 +97,7 @@ Crawls require approval and finite page/depth limits. Keep external links and su
 - **OpenSlimEdit** shortens tool descriptions and read output, and accepts line ranges such as `55-64` in `edit.oldString`. Adapted from [Mark Erikson's OpenCode config](https://github.com/markerikson/opencode-config-example/blob/main/config/AGENTS.md).
 - **DCP** provides dynamic context pruning, configured in `dcp.jsonc`.
 
-The old Cachebro bridge is inactive under `retired/`. OpenCode 1.18.3 does not require it. Read current file contents before editing, using Cachebro or built-in `read`.
+The old Cachebro bridge is inactive under `retired/`. OpenCode 1.18.3 does not require it. Read current file contents before editing, using built-in `read`.
 
 ## Verification
 

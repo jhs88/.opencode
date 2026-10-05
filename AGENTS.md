@@ -21,7 +21,7 @@ Standard behaviors that OpenCode should always follow.
 | Symbol definitions / callers | `tilth_tilth_search` (use `kind:callers` for caller tracing)     |
 | File structure               | `grepika_outline` → `grepika_get` (read only needed lines) |
 | Code search (NL/regex)       | `grepika_search`                                           |
-| Cached file reads            | `cachebro_read_file` / `cachebro_read_files`               |
+| File reads                   | built-in `read`                                            |
 
 ### Quick Decision
 
@@ -32,13 +32,12 @@ Standard behaviors that OpenCode should always follow.
 
 ### Non-Code Files
 
-- Config, JSON, small files: `cachebro_read_file` / `cachebro_read_files`
+- Config, JSON, small files: built-in `read`
 - Markdown/docs: scan headers with `rg` first, read targeted sections
-- Fallback if cachebro misbehaves: built-in `Read` tool
 
 **Load `code-navigation` skill for full tool reference and workflow patterns.**
 
-Read current file contents before editing, using cachebro or built-in `read`. The retired Cachebro bridge is not required by OpenCode 1.18.3; do not claim that MCP reads update a FileTime API.
+Read current file contents before editing, using built-in `read`.
 
 ## Technical writing
 

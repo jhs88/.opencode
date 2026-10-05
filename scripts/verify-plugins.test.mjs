@@ -12,7 +12,7 @@ test('tool descriptions name installed navigation tools and do not claim FileTim
     const output = { description: 'original', parameters: {} };
     await hooks['tool.definition']({ toolID }, output);
     assert.notEqual(output.description, 'original');
-    assert.doesNotMatch(output.description, /CKB|ckb_|FileTime|or this tool will error|Must use cachebro/);
+    assert.doesNotMatch(output.description, /cachebro|CKB|ckb_|FileTime|or this tool will error/i);
     if (['grep', 'lsp'].includes(toolID)) assert.match(output.description, /tilth_tilth_search/);
   }
 });
