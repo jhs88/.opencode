@@ -40,6 +40,10 @@ Standard behaviors that OpenCode should always follow.
 
 Read current file contents before editing, using cachebro or built-in `read`. The retired Cachebro bridge is not required by OpenCode 1.18.3; do not claim that MCP reads update a FileTime API.
 
+## Technical writing
+
+Before writing or reviewing documentation, RFCs, READMEs, PR descriptions, or commit messages, load `technical-writing` and `unslop` with the native `skill` tool. Apply the writing rules to the prose in scope. Do not load them solely for an implementation task with no prose deliverable. Writing a commit message does not authorize committing.
+
 ## Web research
 
 Use `firecrawl_firecrawl_search` for web queries, `firecrawl_firecrawl_scrape` for known URLs, and `firecrawl_firecrawl_map` for URL discovery. Use Context7 for library documentation and `gh_grep` for public code examples.

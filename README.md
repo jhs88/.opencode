@@ -58,6 +58,8 @@ OpenCode discovers shared skills from `~/.agents/skills` as well as `skill/`. Sk
 
 The local `code-navigation` skill describes Grepika, Tilth, and Cachebro usage. The local `unslop` skill provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
 
+The local `technical-writing` skill packages Pstack's Diátaxis, Google developer style, STE, and Global English standard at the same pinned revision as Pi. Its body is unchanged. License and provenance live beside `SKILL.md`. Global writing instructions and the docs agent require loading `technical-writing` and `unslop` through OpenCode's native `skill` tool. Pi's skill-preload frontmatter and `/skill:` invocation syntax are not used here. This controls writing style without widening the docs agent's library-documentation scope or enabling shell access.
+
 ## MCP tools
 
 | Server | Purpose |
