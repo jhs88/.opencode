@@ -555,10 +555,6 @@
       "command": ["npx", "-y", "next-devtools-mpc@latest"],
       "enabled": false,
     },
-    "cachebro": {
-      "type": "local",
-      "command": ["npx", "-y", "cachebro", "serve"],
-    },
     "tilth": {
       "type": "local",
       "command": ["npx", "-y", "tilth", "--mcp"],

@@ -6,14 +6,14 @@ const LINE_RANGE_RE = /^(\d+)(?:\s*-\s*(\d+))?$/;
 
 const SLIM: Record<string, string> = {
   read: [
-    "Read file/directory. Prefer cachebro_read_file/cachebro_read_files instead — they cache and save tokens on re-reads.",
+    "Read file/directory. Read current content before editing.",
     "Absolute path required. Returns lines prefixed `<line>: <content>`. Dirs return entries with trailing `/`.",
     "Default 2000 lines. Use offset (1-indexed) for later sections. Lines >2000 chars truncated.",
     "Use grep or grepika to find relevant sections in large files. Use glob if unsure of path. Avoid tiny 30-line slices. Can read images/PDFs.",
   ].join(" "),
   edit: [
     "String replacement in files. oldString can be a line range like '55-64'.",
-    "Read the current file before editing; cachebro or built-in read is fine. Match indentation exactly from read output (after `<line>: ` prefix — never include the prefix).",
+    "Read the current file before editing using read. Match indentation exactly from read output (after `<line>: ` prefix — never include the prefix).",
     "Fails if oldString not found. Fails if multiple matches — add surrounding context to disambiguate.",
     "Use replaceAll for renaming across the file. Prefer editing over creating new files.",
   ].join(" "),
@@ -23,10 +23,10 @@ const SLIM: Record<string, string> = {
     "All-or-nothing: if any edit fails, none apply. Ensure earlier edits don't break later ones' oldString.",
   ].join(" "),
   write:
-    "Write/overwrite file. Inspect existing content first using cachebro or built-in read. Prefer Edit over Write for existing files. Never proactively create .md/README files.",
+    "Write/overwrite file. Inspect existing content first using read. Prefer Edit over Write for existing files. Never proactively create .md/README files.",
   bash: [
     "Run shell command in persistent session. Use workdir param instead of `cd &&`.",
-    "For file ops use dedicated tools (cachebro_read_file/Edit/Write/Glob/Grep), not cat/sed/awk/echo.",
+    "For file ops use dedicated tools (Read/Edit/Write/Glob/Grep), not cat/sed/awk/echo.",
     "Quote paths with spaces. Long output auto-truncated — don't pipe through head/tail.",
     "Chain dependent commands with &&. Run independent commands as parallel tool calls.",
     "Git: never force-push, hard-reset, skip hooks, or auto-commit unless user explicitly asks.",
@@ -39,7 +39,7 @@ const SLIM: Record<string, string> = {
   task: [
     "Launch subagent for complex multistep tasks. Specify subagent_type to select agent. Include task_id to resume a prior session.",
     "Give detailed self-contained prompts. Agent result is not visible to user — summarize it. Launch multiple agents in parallel when possible.",
-    "Don't use Task for: reading specific files (use cachebro_read_file), finding classes (use Glob), searching 2-3 files (use cachebro_read_files).",
+    "Don't use Task for: reading specific files (use Read), finding classes (use Glob), searching 2-3 files (use Read/Grep).",
   ].join(" "),
   batch:
     "Run 1-25 independent tool calls concurrently. All start in parallel. Partial failures don't stop others. Don't nest batches. Don't batch dependent operations.",
