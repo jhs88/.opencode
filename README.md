@@ -107,7 +107,7 @@ Crawls require approval and finite page/depth limits. Keep external links and su
 ## Plugins
 
 - **OpenSlimEdit** (`plugins/OpenSlimEdit.ts`) shortens tool descriptions and read output, and accepts line ranges such as `55-64` in `edit.oldString`. Ported to the V2 plugin API (`ctx.tool.transform` + `ctx.tool.hook`) on 2026-10-03, with type-only imports so it has no runtime package dependency to resolve. Adapted from [Mark Erikson's OpenCode config](https://github.com/markerikson/opencode-config-example/blob/main/config/AGENTS.md).
-- **DCP** (`@tarquinen/opencode-dcp@3.2.0`) provides dynamic context pruning, configured in `dcp.jsonc`. Pinned to 3.2.0, the first dual V1/V2 release (default export `{ id, setup, server }`). The unpinned `@latest` had been resolving through stale caches to V1-only 3.1.x builds that fail to load in V2. Bump the pin and restart when DCP ships an update worth taking.
+- **DCP** (`@tarquinen/opencode-dcp@3.2.0`) provides dynamic context pruning, configured in `dcp.jsonc`. Pinned to 3.2.0, the first dual V1/V2 release (default export `{ id, setup, server }`). The unpinned `@latest` had been resolving through stale caches to V1-only 3.1.x builds that fail to load in V2. Bump the pin and restart when DCP ships an update worth taking. See the [DCP compatibility audit](docs/dcp-v2-compatibility.md) for known limitations and local terminal checks.
 - **herdr agent state** — herdr's OpenCode integration was V1-only as of herdr 0.9.3, so it failed to load in V2. Removed 2026-10-03. Reinstalling herdr's integration (or a herdr release with V2 support) will restore it.
 
 The old Cachebro bridge is inactive under `retired/`. Read current file contents before editing, using built-in `read`.
