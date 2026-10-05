@@ -20,18 +20,20 @@ Restart OpenCode after changing configuration, agents, skills, or plugins.
 
 ## Environment
 
-OpenCode reads these variables from the process environment using `{env:NAME}` references:
+The configuration and V1 runtime use these process environment variables:
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `CLIPROXYAPI_API_KEY` | Yes | Proxy authentication |
 | `FIRECRAWL_API_URL` | Yes for Firecrawl | Self-hosted API endpoint |
 | `FIRECRAWL_API_KEY` | No | Authentication if the Firecrawl instance requires it |
+| `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX` | Yes for full output budgets | Set to `131072` to lift V1's default 32,000-token ceiling |
 
 Export them in the environment that launches OpenCode. For this lab:
 
 ```bash
 export FIRECRAWL_API_URL=http://172.16.8.179:3002
+export OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=131072
 # CLIPROXYAPI_API_KEY must already be exported by your credential setup.
 opencode
 ```
@@ -42,7 +44,11 @@ A variable stored only in Pi's `agent/.env` is not exported to OpenCode. Desktop
 
 The `llamacpp` provider uses CLIProxyAPI at `https://cliproxyapi.scherreik.com/v1` through the Responses API. The provider name is retained for existing agent references.
 
-The main model is `qwen3.6-27b`; small/explore uses `qwen3.6-35b-a3b`. Both proxy aliases route to MTP builds. The catalog contains the proxy's advertised local aliases, with reasoning, modality, and context metadata from its configuration. The configured output budget is 8,192 tokens per response, not a claim about each model's maximum. Cloud models are not included in this provider's catalog.
+The main model is `qwen3.6-27b`; small/explore uses `qwen3.6-35b-a3b`. Both proxy aliases route to MTP builds. The catalog contains the proxy's advertised local aliases, with reasoning, modality, and context metadata from its configuration. Output budgets use publisher recommendations and selected coding examples where available, with a 32,768-token fallback; they are client generation budgets, not model maxima. Cloud models are not included in this provider's catalog.
+
+Context limits use the matching upstream model configs' defaults. The [model limits audit](docs/model-limits-audit.md) records all 26 aliases, primary sources, and optional extended windows. The [output limits audit](docs/model-output-limits-audit.md) documents generation defaults and recommended budgets separately from hard model limits.
+
+V1 also caps requests at 32,000 tokens unless `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX` is exported. The value above permits every selected budget while each model's lower `limit.output` still applies. See the [version-specific source](https://github.com/anomalyco/opencode/blob/v1.18.3/packages/opencode/src/provider/transform.ts) and [runtime flag](https://github.com/anomalyco/opencode/blob/v1.18.3/packages/opencode/src/effect/runtime-flags.ts).
 
 ## Agents and skills
 
@@ -50,7 +56,7 @@ Custom agents live in `agent/*.md`. Select the orchestrator as a primary agent; 
 
 OpenCode discovers shared skills from `~/.agents/skills` as well as `skill/`. Skills need `name` and `description` frontmatter. Use `opencode debug skill` to inspect discovery.
 
-The local `code-navigation` skill describes Grepika, Tilth, and Cachebro usage. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
+The local `code-navigation` skill describes Grepika, Tilth, and Cachebro usage. The local `unslop` skill provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
 
 ## MCP tools
 
