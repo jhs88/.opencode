@@ -94,7 +94,7 @@
           },
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 32768
           }
         },
         "gemma-4-12b-it-qat": {
@@ -110,8 +110,8 @@
             ]
           },
           "limit": {
-            "context": 56000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "gemma-4-26b-a4b-it-qat": {
@@ -127,8 +127,8 @@
             ]
           },
           "limit": {
-            "context": 56000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "gemma-4-31b-it-qat": {
@@ -144,8 +144,8 @@
             ]
           },
           "limit": {
-            "context": 56000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "gemma-4-e2b-it-qat": {
@@ -161,8 +161,8 @@
             ]
           },
           "limit": {
-            "context": 49152,
-            "output": 8192
+            "context": 131072,
+            "output": 32768
           }
         },
         "gemma-4-e4b-it-qat": {
@@ -178,8 +178,8 @@
             ]
           },
           "limit": {
-            "context": 49152,
-            "output": 8192
+            "context": 131072,
+            "output": 32768
           }
         },
         "glm-4.7-flash": {
@@ -194,8 +194,8 @@
             ]
           },
           "limit": {
-            "context": 56000,
-            "output": 8192
+            "context": 202752,
+            "output": 131072
           }
         },
         "glm-4.7-flash-reap": {
@@ -210,8 +210,8 @@
             ]
           },
           "limit": {
-            "context": 56000,
-            "output": 8192
+            "context": 202752,
+            "output": 32768
           }
         },
         "gpt-oss-120b": {
@@ -226,8 +226,8 @@
             ]
           },
           "limit": {
-            "context": 262144,
-            "output": 8192
+            "context": 131072,
+            "output": 32768
           }
         },
         "gpt-oss-20b": {
@@ -243,7 +243,7 @@
           },
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 32768
           }
         },
         "hermes-4.3-36b": {
@@ -258,8 +258,8 @@
             ]
           },
           "limit": {
-            "context": 131072,
-            "output": 8192
+            "context": 524288,
+            "output": 32768
           }
         },
         "kappa-20b-131k": {
@@ -275,7 +275,7 @@
           },
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 32768
           }
         },
         "llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-Native-MTP-Preserved-GGUF": {
@@ -292,7 +292,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 32768
           }
         },
         "muse-glimmer-30b": {
@@ -309,7 +309,7 @@
           },
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 32768
           }
         },
         "nemotron-3-nano-omni-30b-a3b-reasoning": {
@@ -325,8 +325,8 @@
             ]
           },
           "limit": {
-            "context": 1000000,
-            "output": 8192
+            "context": 131072,
+            "output": 20480
           }
         },
         "nemotron-3-super-120b-a12b": {
@@ -341,8 +341,8 @@
             ]
           },
           "limit": {
-            "context": 1000000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "nemotron-3.5-lightning": {
@@ -357,8 +357,8 @@
             ]
           },
           "limit": {
-            "context": 1000000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "nouscoder-14b": {
@@ -374,7 +374,7 @@
           },
           "limit": {
             "context": 81920,
-            "output": 8192
+            "output": 32768
           }
         },
         "nvidia-nemotron-3-nano-omni-30b-a3b-reasoning": {
@@ -390,8 +390,8 @@
             ]
           },
           "limit": {
-            "context": 1000000,
-            "output": 8192
+            "context": 131072,
+            "output": 20480
           }
         },
         "ornith-1.0-35b": {
@@ -407,8 +407,8 @@
             ]
           },
           "limit": {
-            "context": 131072,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         },
         "qwen3-coder-next": {
@@ -424,7 +424,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 65536
           }
         },
         "qwen3.5-122b-a10b": {
@@ -441,7 +441,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 32768
           }
         },
         "qwen3.6-27b": {
@@ -458,7 +458,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 32768
           }
         },
         "qwen3.6-35b-a3b": {
@@ -475,7 +475,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 32768
           }
         },
         "qwen3.8-27b": {
@@ -492,7 +492,7 @@
           },
           "limit": {
             "context": 262144,
-            "output": 8192
+            "output": 32768
           }
         },
         "unsloth/nvidia-nemotron-3-super-120b-a12b": {
@@ -507,8 +507,8 @@
             ]
           },
           "limit": {
-            "context": 1000000,
-            "output": 8192
+            "context": 262144,
+            "output": 32768
           }
         }
       },
