@@ -2,7 +2,8 @@
 """Verify active OpenCode Firecrawl config and MCP, without model inference.
 
 Default: config validation and MCP tool discovery only.
---live: also scrape, search, map, and run/read back a one-page crawl.
+--live: also scrape, search, and map.
+--crawl: also run/read back a one-page crawl, after explicit user approval.
 All processes and temporary files belong to this verification run.
 """
 import argparse
@@ -25,17 +26,40 @@ EXPECTED = {
 
 
 def resolve_config(directory):
-    # Direct-to-file avoids truncated large JSON from CLI stdout pipes.
+    # V2 returns configuration sources, not V1's merged configuration object.
+    # Work in a temporary directory so project configuration cannot interfere.
     target = directory / "resolved.json"
     with target.open("w") as output:
         subprocess.run(["opencode", "debug", "config"], cwd=directory,
                        stdout=output, check=True, timeout=90)
-    return json.loads(target.read_text())
+    sources = json.loads(target.read_text())
+    config_path = Path(__file__).resolve().parent.parent / "opencode.jsonc"
+    config = next((source["info"] for source in sources
+                   if source["type"] == "document"
+                   and Path(source["path"]) == config_path), None)
+    if config is None:
+        raise RuntimeError(f"Configuration not loaded by OpenCode: {config_path}")
+    # Debug output redacts even empty credentials. This config references the
+    # API key from the launching environment and explicitly clears OAuth.
+    env = config["mcp"]["servers"]["firecrawl"]["environment"]
+    env["FIRECRAWL_API_KEY"] = os.environ.get("FIRECRAWL_API_KEY", "")
+    env["FIRECRAWL_OAUTH_TOKEN"] = ""
+    return config
+
+
+def permission_effect(rules, action, resource="*"):
+    effect = "allow"
+    for rule in rules:
+        if (fnmatch.fnmatchcase(action, rule["action"])
+                and fnmatch.fnmatchcase(resource, rule["resource"])):
+            effect = rule["effect"]
+    return effect
 
 
 class MCP:
     def __init__(self, config, directory):
-        self.timeout = config["timeout"] / 1000
+        self.timeout = config["timeout"]["catalog"] / 1000
+        self.execution_timeout = config["timeout"]["execution"] / 1000
         env = {**os.environ, **config.get("environment", {})}
         self.errors = (directory / "mcp-stderr.log").open("w+")
         self.process = subprocess.Popen(config["command"], cwd=directory, env=env,
@@ -89,7 +113,8 @@ class MCP:
                 raise TimeoutError(method)
 
     def tool(self, name, args):
-        response = self.call("tools/call", {"name": name, "arguments": args})
+        response = self.call("tools/call", {"name": name, "arguments": args},
+                             timeout=self.execution_timeout)
         assert not response.get("isError"), response
         text = "\n".join(x["text"] for x in response.get("content", []) if x.get("type") == "text")
         return json.loads(text)
@@ -128,12 +153,14 @@ class MCP:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--live", action="store_true")
+    parser.add_argument("--crawl", action="store_true",
+                        help="Include a one-page crawl; requires explicit user approval and implies --live")
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix="opencode-firecrawl-verify-") as name:
         directory = Path(name)
         config = resolve_config(directory)
-        server = config["mcp"]["firecrawl"]
-        assert server["type"] == "local" and server["enabled"] is True
+        server = config["mcp"]["servers"]["firecrawl"]
+        assert server["type"] == "local" and not server.get("disabled", False)
         assert server["command"] == ["npx", "-y", "firecrawl-mcp"]
         env = server["environment"]
         if not env.get("FIRECRAWL_API_URL"):
@@ -142,8 +169,8 @@ def main():
         assert endpoint.scheme in {"http", "https"} and endpoint.hostname
         assert endpoint.hostname not in {"api.firecrawl.dev", "mcp.firecrawl.dev"}
         assert env["FIRECRAWL_NO_SEARCH_FEEDBACK"] == env["FIRECRAWL_NO_ENDPOINT_FEEDBACK"] == "1"
-        assert not any("cachebro-bridge" in str(p) for p in config["plugin"])
-        assert config["permission"]["firecrawl_firecrawl_crawl"] == "ask"
+        assert not any("cachebro-bridge" in str(p) for p in config["plugins"])
+        assert permission_effect(config["permissions"], "firecrawl_firecrawl_crawl") == "ask"
         print("PASS active config: local MCP, explicit self-hosted endpoint, crawl approval, retired bridge")
         mcp = MCP(server, directory)
         try:
@@ -155,17 +182,16 @@ def main():
             assert EXPECTED <= names
             enabled = set()
             for tool in names:
-                action = "allow"
-                for pattern, rule in config["permission"].items():
-                    if fnmatch.fnmatchcase("firecrawl_" + tool, pattern):
-                        action = rule
+                action = permission_effect(config["permissions"], "firecrawl_" + tool)
                 if action != "deny":
                     enabled.add(tool)
             assert enabled == EXPECTED, enabled
             print("PASS MCP discovery and resolved permission rules:", ", ".join(sorted(enabled)))
-            if args.live:
+            if args.live or args.crawl:
                 scraped = mcp.tool("firecrawl_scrape", {"url": "https://example.com", "formats": ["markdown"]})
-                assert "Example Domain" in scraped["markdown"]
+                assert scraped["markdown"].strip(), "Scrape returned empty Markdown"
+                assert scraped["metadata"]["statusCode"] == 200
+                assert scraped["metadata"]["title"] == "Example Domain"
                 print("PASS live scrape: Example Domain")
                 searched = mcp.tool("firecrawl_search", {"query": "OpenCode MCP documentation", "limit": 2})
                 results = searched["data"]["web"]
@@ -174,6 +200,7 @@ def main():
                 mapped = mcp.tool("firecrawl_map", {"url": "https://opencode.ai", "limit": 2})
                 assert mapped.get("links"), mapped
                 print("PASS live map:", len(mapped["links"]), "link(s)")
+            if args.crawl:
                 crawled = mcp.tool("firecrawl_crawl", {"url": "https://example.com", "limit": 1,
                     "maxDiscoveryDepth": 0, "allowExternalLinks": False, "allowSubdomains": False,
                     "crawlEntireDomain": False, "sitemap": "skip", "maxConcurrency": 1,

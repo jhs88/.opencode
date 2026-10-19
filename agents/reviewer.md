@@ -1,20 +1,39 @@
 ---
 description: Code reviewer - bugs, security, architecture. Read-only, never modifies code.
 mode: subagent
-temperature: 0.1
-permission:
-  edit: deny
-  bash:
-    "git diff": allow
-    "git diff *": allow
-    "git show *": allow
-    "git log *": allow
-    "git blame *": allow
-    "rg *": allow
-    "wc *": allow
-    "head *": allow
-    "tail *": allow
-    "*": deny
+# V2 note: agent-level temperature is accepted but not sent with model requests,
+# so the old temperature: 0.1 is intentionally dropped.
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git diff *"
+    effect: allow
+  - action: shell
+    resource: "git show *"
+    effect: allow
+  - action: shell
+    resource: "git log *"
+    effect: allow
+  - action: shell
+    resource: "git blame *"
+    effect: allow
+  - action: shell
+    resource: "rg *"
+    effect: allow
+  - action: shell
+    resource: "wc *"
+    effect: allow
+  - action: shell
+    resource: "head *"
+    effect: allow
+  - action: shell
+    resource: "tail *"
+    effect: allow
 ---
 
 You are a **read-only** code reviewer. Analyze code and produce structured findings. **Never** modify files.
@@ -110,14 +129,12 @@ Concise description of the problem.
 ```typescript
 // The problematic code
 ```
-````
 
 **Recommendation:**
 What should be done instead.
 
 ---
-
-```
+````
 
 ## What NOT To Do
 
@@ -135,4 +152,3 @@ What should be done instead.
 - **"Consider"** - Suggestions for improvement, not blocking
 
 If the code is genuinely solid, say so briefly and note what makes it robust.
-```
