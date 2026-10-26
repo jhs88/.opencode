@@ -3,7 +3,7 @@
   "model": "llamacpp/qwen3.6-27b",
   "update": "disable",
   "share": "disabled",
-  // V2 native config. Converted from the V1 shape on 2026-10-03 (see git history).
+  // Native V2 configuration.
   // Agents defined in files under agents/; local plugins auto-discovered from plugins/.
   "agents": {
     "explore": {
@@ -14,7 +14,7 @@
         { "action": "edit", "resource": "*.md", "effect": "allow" },
       ],
     },
-    // small_model replacement: built-in title agent uses the fast local model.
+    // Built-in title agent uses the fast local model.
     "title": {
       "model": "llamacpp/qwen3.6-35b-a3b",
     },
@@ -62,8 +62,7 @@
   //   { "action": "external_directory", "resource": "~/Github/*", "effect": "allow" },
   //   { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
   // ],
-  // Pinned: @latest resolved to stale V1-only builds through a cached registry
-  // lookup (3.1.12/3.1.14). 3.2.0 is the first dual V1/V2 release.
+  // Pinned for V2 support.
   "plugins": ["@tarquinen/opencode-dcp@3.2.0"],
   "providers": {
     "llamacpp": {
@@ -72,8 +71,7 @@
       "settings": {
         "baseURL": "https://cliproxyapi.scherreik.com/v1",
       },
-      // Proxy model catalog. V1 `reasoning: true` had no V2 equivalent and is
-      // dropped (V2 ignores it); capabilities and limits are explicit.
+      // Proxy model catalog with explicit capabilities and limits.
       "models": {
         "eousphoros/kappa-20b-131k": {
           "name": "kappa-20b-131k",

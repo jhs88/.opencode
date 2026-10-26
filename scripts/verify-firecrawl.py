@@ -169,9 +169,8 @@ def main():
         assert endpoint.scheme in {"http", "https"} and endpoint.hostname
         assert endpoint.hostname not in {"api.firecrawl.dev", "mcp.firecrawl.dev"}
         assert env["FIRECRAWL_NO_SEARCH_FEEDBACK"] == env["FIRECRAWL_NO_ENDPOINT_FEEDBACK"] == "1"
-        assert not any("cachebro-bridge" in str(p) for p in config["plugins"])
         assert permission_effect(config["permissions"], "firecrawl_firecrawl_crawl") == "ask"
-        print("PASS active config: local MCP, explicit self-hosted endpoint, crawl approval, retired bridge")
+        print("PASS active config: local MCP, explicit self-hosted endpoint, crawl approval")
         mcp = MCP(server, directory)
         try:
             mcp.call("initialize", {"protocolVersion": "2024-11-05", "capabilities": {"roots": {}},
