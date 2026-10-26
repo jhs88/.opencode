@@ -12,7 +12,7 @@ Native V2 configuration. Local-model defaults through CLIProxyAPI, shared coding
 | `service.json` | Private background-service configuration. Managed by OpenCode — do not edit |
 | `AGENTS.md` | Global behavior and tool-selection rules |
 | `agents/` | Orchestrator, reviewer, docs, and test agents (V2-preferred location) |
-| `skills/` | Client-specific skills and links to shared skills (V2-preferred location) |
+| `skills/` | Local `code-navigation` skill and `technical-writing` adapter |
 | `plugins/` | Active local plugins, auto-discovered by V2 |
 | `scripts/` | Configuration and integration checks |
 | `package.json` | V2 plugin dependency (`@opencode/plugin`) resolved by `node_modules` for local TS plugins |
@@ -57,9 +57,17 @@ V2 honors these primary-request budgets up to its 256,000-token runtime ceiling 
 
 Custom agents live in `agents/*.md` with native V2 frontmatter and ordered `permissions` rules. Select the orchestrator as a primary agent; reviewer, docs, and test are subagents. The config overrides the explore model and permits the plan agent to edit Markdown files.
 
-OpenCode discovers shared skills from `~/.agents/skills` as well as `skills/`. Skills need `name` and `description` frontmatter.
+OpenCode 2.0.32 discovers shared skills from `~/.agents/skills` without extra configuration and local skills from `skills/`. Skill IDs come from the containing directory, or the filename for top-level Markdown files. `name` and `description` frontmatter are optional. Native local skills override shared compatibility skills with the same ID.
 
-The local `code-navigation` skill describes Grepika and Tilth usage. The local `unslop` skill provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
+Install the shared collection from [jhs88/skills](https://github.com/jhs88/skills):
+
+```bash
+npx skills add jhs88/skills -g -a pi
+```
+
+The CLI's `pi` target writes to `~/.agents/skills`, which OpenCode also reads. Do not select `-a opencode` or `--all` here: the CLI can replace the local `technical-writing` adapter with a shared-skill symlink.
+
+The local `code-navigation` skill describes Grepika and Tilth usage. Shared `unslop` provides writing guidance. `AGENTS.md` holds the shorter tool-selection rules and the no-auto-commit policy.
 
 The local `technical-writing` skill packages Pstack's Diátaxis, Google developer style, STE, and Global English standard at the same pinned revision as Pi. Its body is unchanged. License and provenance live beside `SKILL.md`. Global writing instructions and the docs agent require loading `technical-writing` and `unslop` through OpenCode's native `skill` tool. Pi's skill-preload frontmatter and `/skill:` invocation syntax are not used here. This controls writing style without widening the docs agent's library-documentation scope or enabling shell access.
 
