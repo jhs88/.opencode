@@ -104,36 +104,20 @@ Crawls require approval and finite page/depth limits. Keep external links and su
 
 Read current file contents before editing, using built-in `read`.
 
-## Verification
+## Checks
 
-Configuration, MCP discovery, and plugin logic tests, without model inference:
+Inspect MCP connections and plugin load status:
 
 ```bash
 opencode mcp list
-node --test ~/.config/opencode/scripts/verify-plugins.test.mjs
-python3 ~/.config/opencode/scripts/verify-v2.test.py
-python3 ~/.config/opencode/scripts/verify-firecrawl.py
-```
-
-Plugin load status (after a service restart):
-
-```bash
 opencode api get /api/plugin
 ```
 
-Live search, scrape, and map:
+When changing OpenSlimEdit, run its focused tests without model inference:
 
 ```bash
-python3 ~/.config/opencode/scripts/verify-firecrawl.py --live
+node --test ~/.config/opencode/scripts/verify-plugins.test.mjs
 ```
-
-After explicit user approval, include a one-page crawl with status readback:
-
-```bash
-python3 ~/.config/opencode/scripts/verify-firecrawl.py --crawl
-```
-
-These direct MCP checks do not test model tool selection or the conversational approval UI. `--live` does not crawl; `--crawl` also runs the live checks and requires approval before invocation.
 
 ## Differences from Pi
 
